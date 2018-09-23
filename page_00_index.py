@@ -33,9 +33,13 @@ sheet = wb.create_sheet(title='Page_11', index=11)
 wb.save('Plymouth_Daily_Rounds.xlsx')
 
 if __name__ == "__main__":
-    from test_code_pg11 import pg11_start, pg11_headers, pg11_merge
+    from page_11_server_1_3 import pg11_start, pg11_headers, pg11_merge, pg11_namedstyle, pg11_cell_values, pg11_engineer_values, pg11_colored_cells
     pg11_start()
     pg11_headers()
     pg11_merge()
+    pg11_namedstyle()
+    pg11_cell_values()
+    pg11_engineer_values()
+    pg11_colored_cells()
 
 print('\nsheet names at end of \'page_00\':', wb.sheetnames) # 'Plymouth_Daily_Rounds', 'Page_11'
