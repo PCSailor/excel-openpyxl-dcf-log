@@ -18,9 +18,12 @@ def pg04_headers():
     # center = Alignment(horizontal='center', vertical='center')
     # right = Alignment(horizontal='right', vertical='bottom')
     # Print Options
-    sheet.print_area = 'A1:E49' # TODO: set cell region
-    print_area = sheet.print_area
-    print('print_area = ', print_area)
+    sheet.print_area = 'A1:E49' # note: set cell region
+
+    print_area = sheet.print_area # Todo: set document font
+    # print_area = 
+    
+
     sheet.print_options.horizontalCentered = True
     sheet.print_options.verticalCentered = True
     # Page margins
@@ -49,11 +52,11 @@ def pg04_merge():
     # center = Alignment(horizontal='center', vertical='center')
     # right = Alignment(horizontal='right', vertical='bottom')
     # Merges 9 cells into 1 in 1 row
-    for row in (1, 5, 12, 24, 28):
+    for row in (1, 5, 12, 27, 28, 32):
         sheet.merge_cells(start_row=row, start_column=1, end_row=row, end_column=5)
     # merge 2 cells into 1 in 1 row
     columns = [(col, col+1) for col in range(2, 5, 2)]
-    for row in [2, 3, 4, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34]:
+    for row in [17, 18]:
         for col1, col2 in columns:
             sheet.merge_cells(start_row=row, start_column=col1, end_row=row, end_column=col2)
     # Column width and Row height
@@ -62,15 +65,16 @@ def pg04_merge():
         # sheet.column_dimensions[col].width = 4.00
     for col in ['B', 'C', 'D', 'E']:
         sheet.column_dimensions[col].width = 9.00
-    rows = range(1, 43)
+    rows = range(1, 50)
     for row in rows:
-        sheet.row_dimensions[row].Height = 15.00
+        sheet.row_dimensions[row].height = 15.00
+    sheet.row_dimensions[18].height = 24
     '''# Wrap text Column A
     for row in rows:
         for col in columns:
             sheet.cell(row, col).alignment = Alignment(wrap_text=True) '''
     sheet.merge_cells(start_row=13, start_column=1, end_row=18, end_column=1)
-    sheet.merge_cells(start_row=30, start_column=1, end_row=32, end_column=1)
+    # sheet.merge_cells(start_row=30, start_column=1, end_row=32, end_column=1)
     sheet.merge_cells(start_row=34, start_column=1, end_row=36, end_column=1)
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
@@ -85,7 +89,7 @@ def pg04_namedstyle():
                         top=Side(style='thick'), 
                         bottom=Side(style='thick'))
     # Styles
-    sheet['A1'].style = 'rooms'
+    sheet['A1'].style = 'rooms' # question: local vs global vars?
     sheet['A12'].style = 'rooms'
     # sheet['A24'].style = 'rooms'
     sheet['A28'].style = 'rooms'
@@ -93,18 +97,28 @@ def pg04_namedstyle():
     sheet['B24'].style = 'rightAlign'
     sheet['B25'].style = 'rightAlign'
     sheet['B27'].style = 'rightAlign' '''
+
     sheet['A5'].alignment = center
     sheet['A13'].alignment = center
-    sheet.cell(row=30, column=1).alignment = center
+    sheet['B17'].alignment = center
+    sheet['B18'].alignment = center
+    sheet['A24'].alignment = center
+    sheet['A27'].alignment = center
+    # sheet.cell(row=30, column=1).alignment = center
+    sheet['A30'].alignment = center
+    sheet['A31'].alignment = center
     sheet['A34'].alignment = center
+    sheet['A38'].alignment = center
+    sheet['A72'].alignment = center
   
 
     # Borders
-    rows = range(1, 80)
+    rows = range(1, 50)
     columns = range(1, 6)
     for row in rows:
         for col in columns:
             sheet.cell(row, col).border = thin_border
+            sheet.cell(row, col).font = Font(size = 9, i=False, color='000000') # changes entire sheet
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg04_cell_values():
@@ -149,8 +163,33 @@ def pg04_cell_values():
     sheet['A32'].value = 'Mechanical / Chill Water Units Room' # Note: Room # Merge cells into 1 row
     sheet['A33'].value = 'Cooling Twr. Supply  water meter reading.'
     sheet['A34'].value = 'Write down the water softener gallon readings from each softener.' # Merges 3 cells in column A (34 to 36) into 1 rcell
-    # sheet['A35'].value = '' # Todo: merge with line 
-    # sheet['A36'].value = '' # Todo: merge with line 
+    # sheet['A35'].value = ''
+    # sheet['A36'].value = '' 
+    ''' rows = range(34)
+    number = str(1)
+    columns = range(2, 6)
+    for row in rows:
+        for col in columns:
+            if rows <= str(36):
+                sheet.cell(row=row, column=col).value = 'Softener#' + number
+                rows += rows
+                number = number + str(1)
+            else:
+                break '''
+
+    sheet['B34'].value = 'Softener#1'  # Todo: 
+    sheet['C34'].value = 'Softener#1'  # Todo: 
+    sheet['D34'].value = 'Softener#1'  # Todo: 
+    sheet['E34'].value = 'Softener#1'  # Todo: 
+    sheet['B35'].value = 'Softener#2' 
+    sheet['C35'].value = 'Softener#2' 
+    sheet['D35'].value = 'Softener#2' 
+    sheet['E35'].value = 'Softener#2' 
+    sheet['B36'].value = 'Softener#3'
+    sheet['C36'].value = 'Softener#3'
+    sheet['D36'].value = 'Softener#3'
+    sheet['E36'].value = 'Softener#3'
+
     sheet['A37'].value = 'Well meter reading'
     sheet['A38'].value = 'HP LL- 4 Ok  (Fan is ok, If there\'s sweating of pipes check operation of HP)'
     sheet['A39'].value = 'CHWP #3'
@@ -160,46 +199,10 @@ def pg04_cell_values():
     sheet['A43'].value = 'CHWP #1'
     sheet['A44'].value = 'CDW to CHW makeup' # Todo: two line 40's
     sheet['A45'].value = 'CHW'
-
-
     sheet['A46'].value = 'CHW Filter PSI (23psi)'
     sheet['A47'].value = 'Bladder tank pressure (<30)'
     sheet['A48'].value = 'CHW Lakos Bag filter'
-    sheet['A49'].value = 'Condenser Supply Temp.  East Side (68 – 85)'
-    sheet['A50'].value = 'CWP-6 VFD'
-    sheet['A51'].value = 'CWP-1 VFD'
-    sheet['A52'].value = 'CWP-4 VFD'
-    sheet['A53'].value = 'CWP-3 VFD'
-    sheet['A54'].value = 'CDWF  VFD '
-    sheet['A55'].value = 'CWP-2 VFD'
-    sheet['A56'].value = 'CWP-5 VFD'
-    sheet['A57'].value = 'TWR Fan- 6 VFD'
-    sheet['A58'].value = 'TWR Fan- 5 VFD'
-    sheet['A59'].value = 'CHWR Header Temp East'
-    sheet['A60'].value = 'CHWR Temp (Bypass) East'
-    sheet['A61'].value = 'Lakos Separator (6psi)'
-    sheet['A62'].value = 'CHWS Temp East'
-    sheet['A63'].value = 'CHWP #3 VFD'
-    sheet['A64'].value = 'Well VFD'
-    sheet['A65'].value = 'CHWP #2 VFD'
-    sheet['A66'].value = 'CHWP #4 VFD'
-    sheet['A67'].value = 'CHWP #1 VFD'
-    sheet['A68'].value = 'CHWP #5 VFD'
-    sheet['A69'].value = 'EF #6 VFD'
-    sheet['A70'].value = 'Core Pump #1 VFD'
-    sheet['A71'].value = 'Core Pump #2 VFD'
-    sheet['A72'].value = 'HP LL- 3 Ok  (Fan is ok, If there\'s sweating of pipes check operation of HP)'
-    sheet['A73'].value = 'Core Pump #2 (15 - 20 PSID)'
-    sheet['A74'].value = 'Core Pump #1 (15 - 20 PSID)'
-    sheet['A75'].value = 'Condenser Supply Temp.  West Side (68 – 85)'
-    sheet['A76'].value = 'Chemical tanks level (above the order lines)'
-    sheet['A77'].value = 'Nalco controller'
-    sheet['A78'].value = 'Coupon Rack flow is between 4 – 6 GPM'
-    sheet['A79'].value = 'Tower #4 VFD'
-    sheet['A80'].value = 'Tower #3 VFD'
-    sheet['A81'].value = 'Tower #2 VFD'
-    sheet['A82'].value = 'Tower #1 VFD'
-    sheet['A83'].value = 'Notes:' # StretchGoal: Increase row height, delete comment rows below # Merge cells into 1 row
+    sheet['A49'].value = 'Notes:' # StretchGoal: Increase row height, delete comment rows below # Merge cells into 1 row
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg04_engineer_values():
@@ -236,12 +239,46 @@ def pg04_engineer_values():
 wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg04_colored_cells():
-    print('pg04_colored_cells called')
-    rowsColor = [1, 12, 28]
+    rowsColor = [1, 12, 28, 32]
     columnsColor = range(1, 6, 1)
     for col in columnsColor:
         for row in rowsColor:
             sheet.cell(row=row, column=col).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
-    print('pg04_colored_cells end')
+    wb.save('Plymouth_Daily_Rounds.xlsx')
 
-wb.save('Plymouth_Daily_Rounds.xlsx')
+    '''
+    sheet['A49'].value = 'Condenser Supply Temp.  East Side (68 – 85)'
+    sheet['A50'].value = 'CWP-6 VFD'
+    sheet['A51'].value = 'CWP-1 VFD'
+    sheet['A52'].value = 'CWP-4 VFD'
+    sheet['A53'].value = 'CWP-3 VFD'
+    sheet['A54'].value = 'CDWF  VFD '
+    sheet['A55'].value = 'CWP-2 VFD'
+    sheet['A56'].value = 'CWP-5 VFD'
+    sheet['A57'].value = 'TWR Fan- 6 VFD'
+    sheet['A58'].value = 'TWR Fan- 5 VFD'
+    sheet['A59'].value = 'CHWR Header Temp East'
+    sheet['A60'].value = 'CHWR Temp (Bypass) East'
+    sheet['A61'].value = 'Lakos Separator (6psi)'
+    sheet['A62'].value = 'CHWS Temp East'
+    sheet['A63'].value = 'CHWP #3 VFD'
+    sheet['A64'].value = 'Well VFD'
+    sheet['A65'].value = 'CHWP #2 VFD'
+    sheet['A66'].value = 'CHWP #4 VFD'
+    sheet['A67'].value = 'CHWP #1 VFD'
+    sheet['A68'].value = 'CHWP #5 VFD'
+    sheet['A69'].value = 'EF #6 VFD'
+    sheet['A70'].value = 'Core Pump #1 VFD'
+    sheet['A71'].value = 'Core Pump #2 VFD'
+    sheet['A72'].value = 'HP LL- 3 Ok  (Fan is ok, If there\'s sweating of pipes check operation of HP)'
+    sheet['A73'].value = 'Core Pump #2 (15 - 20 PSID)'
+    sheet['A74'].value = 'Core Pump #1 (15 - 20 PSID)'
+    sheet['A75'].value = 'Condenser Supply Temp.  West Side (68 – 85)'
+    sheet['A76'].value = 'Chemical tanks level (above the order lines)'
+    sheet['A77'].value = 'Nalco controller'
+    sheet['A78'].value = 'Coupon Rack flow is between 4 – 6 GPM'
+    sheet['A79'].value = 'Tower #4 VFD'
+    sheet['A80'].value = 'Tower #3 VFD'
+    sheet['A81'].value = 'Tower #2 VFD'
+    sheet['A82'].value = 'Tower #1 VFD'
+    '''
