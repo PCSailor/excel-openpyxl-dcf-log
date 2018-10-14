@@ -156,10 +156,9 @@ def pg11_cell_values():
 
 def pg11_engineer_values():
     # Local Variables
-    columns = [2, 4, 6, 8] # Yes or No values AND ✓ X values
     rows = [2, 20, 22, 37] # Yes or No values
     columnOdd = [3, 5, 7, 9] # RH% AND Hz
-    columnEven = [2, 4, 6, 8] # D/P
+    columnEven = [2, 4, 6, 8] # D/P, Yes or No values, AND ✓ X values
     rowsCheck = [3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36] # ✓ X values
     rowsHZ = [3, 4, 6, 11, 12, 13, 16, 17, 23, 24, 25, 30, 31, 32, 33, 34] # 
     rowsRH = [18, 35] # 
@@ -167,31 +166,28 @@ def pg11_engineer_values():
     center = Alignment(horizontal='center', vertical='center')
     right = Alignment(horizontal='right', vertical='bottom')
     # Yes or No values
-    for col in columns:
+    for col in columnEven:
         for row in rows:
-            sheet.cell(row=row, column=col).value = 'Yes  /  No'
             sheet.cell(row=row, column=col).alignment = center
+            sheet.cell(row=row, column=col).value = 'Yes  /  No'
             sheet.cell(row=row, column=col).font = Font(size = 9, color='000000')
     # ✓ X values
-    for col in columns:
+    for col in columnEven:
         for row in rowsCheck:
-            # print(col, row)
-            sheet.cell(row=row, column=col).value = '✓  X'
             sheet.cell(row=row, column=col).alignment = center
+            sheet.cell(row=row, column=col).value = '✓  X'
             sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
     # RH%
     for col in columnOdd:
         for row in rowsRH:
-            # print(col, row)
-            sheet.cell(row=row, column=col).value = '%RH'
             sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = '%RH'
             sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
     # Hz
     for col in columnOdd:
         for row in rowsHZ:
-            # print(col, row)
-            sheet.cell(row=row, column=col).value = 'Hz'
             sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'Hz'
             sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
     # D/P
     for col in columnEven:
@@ -203,7 +199,6 @@ def pg11_engineer_values():
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg11_colored_cells():
-    # Local Variables
     rowsColor = [1, 21, 38]
     rowsBlack = [19, 36]
     columnsColor = [1, 2, 4, 6, 8]

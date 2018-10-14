@@ -74,12 +74,12 @@ if __name__ == "__main__":
     pg03_engineer_values()
     pg03_colored_cells()
     # 
-    from page_04_firepprm_docking import pg04_headers, pg04_merge, pg04_namedstyle, pg04_cell_values, pg04_colored_cells # pg04_engineer_values, 
+    from page_04_firepprm_docking import pg04_headers, pg04_merge, pg04_namedstyle, pg04_cell_values, pg04_colored_cells, pg04_engineer_values
     pg04_headers()
     pg04_merge()
     pg04_namedstyle()
     pg04_cell_values()
-    # pg04_engineer_values()
+    pg04_engineer_values()
     pg04_colored_cells()
     # 
     # breakpoint()

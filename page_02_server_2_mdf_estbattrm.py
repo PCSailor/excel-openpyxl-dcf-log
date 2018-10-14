@@ -55,7 +55,7 @@ def pg02_merge():
     for row in (10, 21, 35):
         sheet.merge_cells(start_row=row, start_column=4, end_row=row, end_column=9)
     # Column width and Row height
-    sheet.column_dimensions['A'].width = 30.00
+    sheet.column_dimensions['A'].width = 46.45
     for col in ['B', 'D', 'F', 'H']:
         sheet.column_dimensions[col].width = 4.00
     for col in ['C', 'E', 'G', 'I']:
@@ -66,27 +66,15 @@ def pg02_merge():
 
 def pg02_namedstyle():
     # Set Named Styles (mutable & used when need to apply formatting to different cells at once)
-    thin_border = Border(left=Side(style='thin'), 
-                        right=Side(style='thin'), 
-                        top=Side(style='thin'), 
-                        bottom=Side(style='thin'))
-    thick_border = Border(left=Side(style='thick'), 
-                        right=Side(style='thick'), 
-                        top=Side(style='thick'), 
-                        bottom=Side(style='thick'))
     # Room Divisions
     sheet['A1'].style = 'rooms'
     sheet['A30'].style = 'rooms'
     sheet['A38'].style = 'rooms'
-    # Set Borders
-    rows = range(1, 50)
-    columns = range(1, 10)
-    for row in rows:
-        for col in columns:
-            sheet.cell(row, col).border = thin_border
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg02_cell_values():
+    # center = Alignment(horizontal='center', vertical='center', wrap_text=True)
+    wrap = Alignment(wrap_text=True)
     # Cell values
     sheet['A1'].value = 'Server Room 2'
     sheet['A2'].value = 'CRAC 29'
@@ -131,37 +119,43 @@ def pg02_cell_values():
     sheet['A41'].value = 'Eagle Eye Computer Alarms'
     sheet['A42'].value = ''
     sheet['A43'].value = ''
-    sheet['A44'].value = 'DC Ground Fault Module reading below 6MA\nPre-alarm=10MA, Alarm=20MA'
+
+    sheet['A44'].value = 'DC Ground Fault Module reading below 6MA\n(Pre-alarm = 10MA, Alarm = 20MA)'
+    sheet['A44'].alignment = wrap
+
     sheet['A45'].value = 'Spare Battery Charger'
     sheet['A46'].value = ''
     sheet['A47'].value = 'Notes:' # StretchGoal: Increase row height, delete comment rows below
     sheet['A48'].value = '' # 
     sheet['A49'].value = ''
     # 
-    sheet['B40'].value = 'Open  /  Closed' # Todo: need to cycle this through other column cells
-    sheet['C41'].value = 'Voltage' # Todo: need to cycle this through other column cells
-    sheet['C42'].value = 'Resistance' # Todo: need to cycle this through other column cells
-    sheet['C43'].value = 'Temerature' # Todo: need to cycle this through other column cells
-    sheet['C44'].value = '✓  X'
-    sheet['C45'].value = 'Volts' # Todo: need to cycle this through other column cells
-    sheet['C46'].value = 'Amps' # Todo: need to cycle this through other column cells
+    # sheet['B40'].value = 'Open  /  Closed' # Todo: need to cycle this through other column cells
+    # sheet['C41'].value = 'Voltage' # Todo: need to cycle this through other column cells
+    # sheet['C42'].value = 'Resistance' # Todo: need to cycle this through other column cells
+    # sheet['C43'].value = 'Temerature' # Todo: need to cycle this through other column cells
+    # sheet['C44'].value = '✓  X'
+    # sheet['C45'].value = 'Volts' # Todo: need to cycle this through other column cells
+    # sheet['C46'].value = 'Amps' # Todo: need to cycle this through other column cells
+
+
+
 
 def pg02_engineer_values():
     center = Alignment(horizontal='center', vertical='center')
     right = Alignment(horizontal='right', vertical='bottom')
     # Yes or No values
-    columns = [2, 4, 6, 8]
+    columnEven = [2, 4, 6, 8]
     rows = [29, 31]
-    for col in columns:
+    for col in columnEven:
         for row in rows:
             sheet.cell(row=row, column=col).value = 'Yes  /  No'
             sheet.cell(row=row, column=col).alignment = center
             sheet.cell(row=row, column=col).font = Font(size = 8, i=True, color='000000')
     # ✓ X values
-    rowsCheck = [2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 32, 33, 34, 35, 36, 37, 44]
-    for col in columns:
+    rowsCheck = [2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 32, 33, 34, 35, 36, 37, 40, 44]
+    for col in columnEven:
         for row in rowsCheck:
-            sheet.cell(row=row, column=col).value = '✓  X'
+            sheet.cell(row=row, column=col).value = '✓ / X'
             sheet.cell(row=row, column=col).alignment = center
             sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
     # RH%
@@ -179,6 +173,39 @@ def pg02_engineer_values():
             sheet.cell(row=row, column=col).value = 'Hz'
             sheet.cell(row=row, column=col).alignment = right
             sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
+
+    # Voltage
+    rowVac = [41, 45]
+    for col in columnodd:
+        for row in rowVac:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'vDC'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
+
+    # Resistance
+    rowR = [42]
+    for col in columnodd:
+        for row in rowR:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'Ω'
+            sheet.cell(row=row, column=col).font = Font(size=9, color='000000')
+
+    # Temperature
+    rowT = [43]
+    for col in columnodd:
+        for row in rowT:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = '°F'
+            sheet.cell(row=row, column=col).font = Font(size=9, color='000000')
+
+    # Amps
+    rowI = [46]
+    for col in columnodd:
+        for row in rowI:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'amps'
+            sheet.cell(row=row, column=col).font = Font(size=9, color='000000')
+
     # Misc.
     sheet.merge_cells(start_row=41, start_column=1, end_row=43, end_column=1)
     sheet.merge_cells(start_row=45, start_column=1, end_row=46, end_column=1)
@@ -186,9 +213,18 @@ def pg02_engineer_values():
     sheet.cell(row=45, column=1).alignment = center
 
 def pg02_colored_cells():
-    rowscolor = [1, 30, 38, 39, 47]
+    rowscolor = [1, 30, 38]
     columnscolor = [1, 2, 4, 6, 8]
     for col in columnscolor:
         for row in rowscolor:
             sheet.cell(row=row, column=col).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
+
+    thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+    thick_border = Border(left=Side(style='thick'), right=Side(style='thick'), top=Side(style='thick'), bottom=Side(style='thick'))
+    # Set Borders
+    rows = range(1, 50)
+    columns = range(1, 10)
+    for row in rows:
+        for col in columns:
+            sheet.cell(row, col).border = thin_border
     wb.save('Plymouth_Daily_Rounds.xlsx')

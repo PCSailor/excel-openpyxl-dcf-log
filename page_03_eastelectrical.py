@@ -48,7 +48,7 @@ def pg03_merge():
         sheet.merge_cells(start_row=row, start_column=1, end_row=row, end_column=9)
     # merge 2 cells into 1 in 1 row
     columns = [(col, col+1) for col in range(2, 9, 2)]
-    for row in [7, 12, 13, 14, 15, 21, 23, 24, 25, 26, 27]:
+    for row in [2, 3, 4, 5, 6, 7, 9, 12, 13, 14, 15, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]:
         for col1, col2 in columns:
             sheet.merge_cells(start_row=row, start_column=col1, end_row=row, end_column=col2)
     # merge 3 cells into 1 in 1 column # Todo:  need to get this working - see below for code - can move up here?
@@ -90,22 +90,27 @@ def pg03_namedstyle():
     sheet['B24'].style = 'rightAlign'
     sheet['B25'].style = 'rightAlign'
     sheet['B27'].style = 'rightAlign'
+
     # Borders
     rows = range(1, 42)
     columns = range(1, 10)
     for row in rows:
         for col in columns:
             sheet.cell(row, col).border = thin_border
+
+
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg03_cell_values():
+    wrap = Alignment(wrap_text=True)
     sheet['A1'].value = 'Rail 3 Batteries'
     sheet['A2'].value = 'Room Temperature'
     sheet['A3'].value = 'CU3 Battery Breaker'
     sheet['A4'].value = 'Eagle Eye Computer Alarms' # Todo: Merge A4-A6
     # sheet['A5'].value = ''
     # sheet['A6'].value = ''
-    sheet['A7'].value = 'DC Ground Fault Module reading below 6ma (Set Points are 10ma-Prealarm /20ma-Alarm)'
+    sheet['A7'].value = 'DC Ground Fault Module reading below 6MA\n(Pre-alarm = 10MA, Alarm = 20MA)'
+    sheet['A7'].alignment = wrap
     sheet['A8'].value = 'East UPS Room'
     sheet['A9'].value = 'Battery Room Hydrogen Monitor Levels %'
     sheet['A10'].value = 'Rail 2'
@@ -119,7 +124,7 @@ def pg03_cell_values():
     sheet['A18'].value = 'CU2-M1_UPS 2' # Todo: Merge A18-A20
     # sheet['A19'].value = ''
     # sheet['A20'].value = ''
-    sheet['A21'].value = 'MBB Module Battery Breaker'
+    sheet['A21'].value = 'MBB Module Battery Breaker Closed'
     sheet['A22'].value = 'CI2'
     sheet['A23'].value = 'CI2-B08 Breaker SPD_3 Green lights (Protected)'
     sheet['A24'].value = 'CI2-B11 CU2-M1 Input Breaker'
@@ -128,23 +133,25 @@ def pg03_cell_values():
     sheet['A27'].value = 'CI2-B05  Maintenance Bypass Breaker'
     sheet['A28'].value = 'CO2'
     sheet['A29'].value = 'Eaton Breaker Interface Module II Alarm light OFF'
-    sheet['A30'].value = 'CO2-B18 Spare is Open'
-    sheet['A31'].value = 'CO2-B11 STS-2A is Closed'
-    sheet['A32'].value = 'CO2-B12 STS-2B is Closed'
-    sheet['A33'].value = 'CO2-B17 Spare is Open'
+    sheet['A30'].value = 'CO2-B18 Spare Open'
+    sheet['A31'].value = 'CO2-B11 STS-2A Closed'
+    sheet['A32'].value = 'CO2-B12 STS-2B Closed'
+    sheet['A33'].value = 'CO2-B17 Spare Open'
     sheet['A34'].value = 'CO2-B13 STS-1A Closed'
-    sheet['A35'].value = 'CO2-B14 STS-3B is Closed'
-    sheet['A36'].value = 'CO2-B15 STS-2C is Closed'
-    sheet['A37'].value = 'CO2-B16 STS-2D is Closed'
+    sheet['A35'].value = 'CO2-B14 STS-3B Closed'
+    sheet['A36'].value = 'CO2-B15 STS-2C Closed'
+    sheet['A37'].value = 'CO2-B16 STS-2D Closed'
     sheet['A38'].value = 'Eaton Xpert meter Events light OFF (User is X and PW is X)'
-    sheet['A39'].value = 'CO2-B01 CC-CO Isolation switch is Closed'
+    sheet['A39'].value = 'CO2-B01 CC-CO Isolation switch Closed'
     sheet['A40'].value = 'Notes:' # StretchGoal: Increase row height, delete comment rows below
     sheet['A41'].value = ''
     sheet['A42'].value = ''
+
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg03_engineer_values():
     center = Alignment(horizontal='center', vertical='center')
+    ctrdwn = Alignment(horizontal='center', vertical='bottom')
     right = Alignment(horizontal='right', vertical='bottom')
     columnEven = [2, 4, 6, 8]
     columnOdd = [3, 5, 7, 9]
@@ -162,12 +169,81 @@ def pg03_engineer_values():
             sheet.cell(row=row, column=col).value = '✓  X'
             sheet.cell(row=row, column=col).alignment = center
             sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
+    # Hz
+    rowsHZ = [16, 17]
+    for col in columnOdd:
+        for row in rowsHZ:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'Hz'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
+   
+
+    # Voltage
+    rowVac = [4]
+    for col in columnOdd:
+        for row in rowVac:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'vDC'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
+
+    # Resistance
+    rowR = [5]
+    for col in columnOdd:
+        for row in rowR:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'Ω'
+            sheet.cell(row=row, column=col).font = Font(size=9, color='000000')
+
+    # Temperature
+    rowT = [2, 6]
+    for col in columnOdd:
+        for row in rowT:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = '°F'
+            sheet.cell(row=row, column=col).font = Font(size=9, color='000000')
+
+    # EF%
+    rowEf = [9]
+    for col in columnEven:
+        for row in rowEf:
+            sheet.cell(row=row, column=col).alignment = ctrdwn
+            sheet.cell(row=row, column=col).value = 'EF4% / EF5%'
+
+    # kW-Out
+    rowsHZ = [18]
+    for col in columnOdd:
+        for row in rowsHZ:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'kW-Out'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
+
+    # kVA-Out
+    rowsHZ = [19]
+    for col in columnOdd:
+        for row in rowsHZ:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'kVA-Out'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
+
+    # Active Events
+    rowsAct = [20]
+    for col in columnOdd:
+        for row in rowsAct:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = '✓  X Active Events?'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
+
     # Misc.
+    # A11
+    sheet['A11'].font = Font(size=12, b=False, i=True, color='FF0000')
+    sheet['A11'].alignment = center
+
     sheet.merge_cells(start_row=4, start_column=1, end_row=6, end_column=1)
     sheet.merge_cells(start_row=18, start_column=1, end_row=20, end_column=1)
     sheet.cell(row=4, column=1).alignment = center
     sheet.cell(row=18, column=1).alignment = center
 
+ 
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg03_colored_cells():

@@ -52,13 +52,13 @@ def pg04_merge():
     # center = Alignment(horizontal='center', vertical='center')
     # right = Alignment(horizontal='right', vertical='bottom')
     # Merges 9 cells into 1 in 1 row
-    for row in (1, 5, 12, 27, 28, 32):
+    for row in (1, 5, 12, 27, 28, 32, 49):
         sheet.merge_cells(start_row=row, start_column=1, end_row=row, end_column=5)
-    # merge 2 cells into 1 in 1 row
-    columns = [(col, col+1) for col in range(2, 5, 2)]
+    ''' # merge 3 cells into 1 in 1 row
+    columns = [(col, col+1) for col in range(2, 4, 1)]
     for row in [17, 18]:
         for col1, col2 in columns:
-            sheet.merge_cells(start_row=row, start_column=col1, end_row=row, end_column=col2)
+            sheet.merge_cells(start_row=row, start_column=col1, end_row=row, end_column=col2) '''
     # Column width and Row height
     sheet.column_dimensions['A'].width = 50.00
     # for col in ['B', 'D', 'F', 'H']:
@@ -68,12 +68,13 @@ def pg04_merge():
     rows = range(1, 50)
     for row in rows:
         sheet.row_dimensions[row].height = 15.00
-    sheet.row_dimensions[18].height = 24
     '''# Wrap text Column A
     for row in rows:
         for col in columns:
             sheet.cell(row, col).alignment = Alignment(wrap_text=True) '''
     sheet.merge_cells(start_row=13, start_column=1, end_row=18, end_column=1)
+    sheet.merge_cells(start_row=17, start_column=2, end_row=17, end_column=4)
+    sheet.merge_cells(start_row=18, start_column=2, end_row=18, end_column=4)
     # sheet.merge_cells(start_row=30, start_column=1, end_row=32, end_column=1)
     sheet.merge_cells(start_row=34, start_column=1, end_row=36, end_column=1)
     wb.save('Plymouth_Daily_Rounds.xlsx')
@@ -88,6 +89,14 @@ def pg04_namedstyle():
                         right=Side(style='thick'), 
                         top=Side(style='thick'), 
                         bottom=Side(style='thick'))
+    '''    # RH%
+    for col in columnOdd:
+        for row in rowsRH:
+            right = Alignment(horizontal='right', vertical='bottom')
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = '%RH'
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).font = Font(size=8, color='000000') '''
     # Styles
     sheet['A1'].style = 'rooms' # question: local vs global vars?
     sheet['A12'].style = 'rooms'
@@ -97,11 +106,11 @@ def pg04_namedstyle():
     sheet['B24'].style = 'rightAlign'
     sheet['B25'].style = 'rightAlign'
     sheet['B27'].style = 'rightAlign' '''
-
+    
     sheet['A5'].alignment = center
     sheet['A13'].alignment = center
-    sheet['B17'].alignment = center
-    sheet['B18'].alignment = center
+    # sheet['B17'].alignment = center
+    # sheet['B18'].alignment = center
     sheet['A24'].alignment = center
     sheet['A27'].alignment = center
     # sheet.cell(row=30, column=1).alignment = center
@@ -210,33 +219,55 @@ def pg04_engineer_values():
     # Local Variables
     center = Alignment(horizontal='center', vertical='center')
     right = Alignment(horizontal='right', vertical='bottom')
-    columnEven = [2, 4]
-    columnOdd = [3, 5]
+    columns = range(2, 6, 1)
+    # columnEven = [2, 4]
+    # columnOdd = [3, 5]
     # Yes or No values
-    rows = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 22, 24]
-    # cells = []
-    for col in columnEven:
+    rows = [2, 3, 4, 11, 26, 29]
+    for col in columns:
         for row in rows:
             sheet.cell(row=row, column=col).value = 'Yes  /  No'
             sheet.cell(row=row, column=col).alignment = center
             sheet.cell(row=row, column=col).font = Font(size = 8, i=True, color='000000')
-    # ✓ X values
-    rowsCheck = [6, 7, 8, 9, 10, 15, 16, 17, 25, 26]
-    for col in columnEven:
+    # ✓ / X values
+    rowsCheck = [6, 7, 8, 9, 10, 19, 20, 21, 30, 31, 38]
+    for col in columns:
         for row in rowsCheck:
-            # print(col, row)
-            sheet.cell(row=row, column=col).value = '✓  or  X'
+            sheet.cell(row=row, column=col).value = '✓  /  X'
             sheet.cell(row=row, column=col).alignment = center
             sheet.cell(row=row, column=col).font = Font(size=9, color='DCDCDC')
         # Hz
-    rowsHZ = [18]
-    for col in columnOdd:
+    rowsHZ = [8, 9]
+    for col in columns:
         for row in rowsHZ:
             # print(col, row)
             sheet.cell(row=row, column=col).value = 'Hz'
             sheet.cell(row=row, column=col).alignment = right
             sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
-wb.save('Plymouth_Daily_Rounds.xlsx')
+    
+    # DP
+    rowsDp = [39, 40, 41, 42, 43, 44, 48]
+    for col in columns:
+        for row in rowsDp:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'DP'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
+            
+    # PSI
+    rowsPsi = [45, 46, 47]
+    for col in columns:
+        for row in rows:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).value = 'PSI'
+            sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
+
+    # Softener
+    rows = [34, 35, 36]
+    for col in columns:
+        for row in rows:
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
+    wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg04_colored_cells():
     rowsColor = [1, 12, 28, 32]

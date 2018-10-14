@@ -146,7 +146,7 @@ def pg01_namedstyle():
     # A1
     a1 = sheet['A1'] # 
     a1.style = rooms
-    a1.font = Font(size=12, b=True, i=True, color='FF0000')
+    a1.font = Font(size=12, b=False, i=True, color='FF0000')
     a1.alignment = center
     a1.value = 'Note: When doing rounds be aware for unusual smells, sounds, sights, or anything not normal.'
     #
@@ -244,19 +244,19 @@ def pg01_cell_values():
 
 def pg01_engineer_values():
     # Local Variables
-    columns = [2, 3, 4, 5]
+    columnEven = [2, 4, 6, 8]
     rows = [11]
     rowsCheck = [6, 7, 22, 23, 24, 25, 26, 27, 29, 34, 35, 36, 37, 38, 39, 41, 42, 43, 45, 46]
     center = Alignment(horizontal='center', vertical='center')
     right = Alignment(horizontal='right', vertical='bottom')
     # Yes or No values
-    for col in columns:
+    for col in columnEven:
         for row in rows:
             sheet.cell(row=row, column=col).value = 'Yes   /   No'
             sheet.cell(row=row, column=col).alignment = center
             sheet.cell(row=row, column=col).font = Font(size = 9, i=True, color='000000')
     # ✓ X values
-    for col in columns:
+    for col in columnEven:
         for row in rowsCheck:
             # print(col, row)
             sheet.cell(row=row, column=col).value = '✓  X'
@@ -265,14 +265,9 @@ def pg01_engineer_values():
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_colored_cells():
-    # Local Variables
-    # rowsColor = [1, 2, 3, 4, 24, 41]
-    rowsColor = [2, 3, 4, 5, 8, 20, 21, 28, 32, 33, 40, 44]
+    rowsColor = [4, 20, 28, 32]
     columnsColor = [1, 2, 3, 4, 5]
     for col in columnsColor:
         for row in rowsColor:
-            # print(col, row)
             sheet.cell(row=row, column=col).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
-    # sheet.cell(row=2, column=1).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
-    #sheet.cell(row=3, column=1).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
     wb.save('Plymouth_Daily_Rounds.xlsx')

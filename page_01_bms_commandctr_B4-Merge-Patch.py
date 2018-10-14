@@ -76,7 +76,7 @@ def pg01_merge():
 
 def pg01_namedstyle():
     ''' NamedStyles set (mutable & used when need to apply formatting to different cells at once) '''
-    # Local Variables
+    print('pg01_namedstyle is run')
     center = Alignment(horizontal='center', vertical='center')
     right = Alignment(horizontal='right', vertical='bottom')
     thin_border = Border(left=Side(style='thin'), 
@@ -123,7 +123,7 @@ def pg01_namedstyle():
     # A1
     a1 = sheet['A1']
     a1.style = rooms
-    a1.font = Font(size=12, b=True, i=True, color='FF0000')
+    a1.font = Font(size=12, b=False, i=True, color='FF0000')
     a1.alignment = center
     a1.value = 'Note: When doing rounds be aware for unusual smells, sounds, sights, or anything not normal.'
     #
@@ -245,13 +245,12 @@ def pg01_engineer_values():
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_colored_cells():
-    # Local Variables
     # rowsColor = [1, 2, 3, 4, 24, 41]
-    rowsColor = [1, 2, 3, 4, 5, 8, 20, 21, 28, 32, 33, 40, 44]
+    rowsColor = [4, 20, 28, 32]
     columnsColor = [1, 2, 3, 4, 5]
     for col in columnsColor:
         for row in rowsColor:
             # print(col, row)
             sheet.cell(row=row, column=col).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
     print('colored_cells complete on ', sheet)
-    wb.save('Plymouth_Daily_Rounds.xlsx')
+wb.save('Plymouth_Daily_Rounds.xlsx')
