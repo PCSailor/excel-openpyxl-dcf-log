@@ -1,59 +1,29 @@
-#! python3
 '''
 * Page 01 of Plymouth_Daily_Rounds.xlsx
 * DCF Office & BMS Monitoring Computer
 * Electrical Room Closets
 * Command Center
 '''
-print('Start next file, \'page_01\'')
-from openpyxl.styles import Alignment, Border, Side, NamedStyle, Font, PatternFill, GradientFill
-
-thin = Side(border_style="thin", color="000000")
-double = Side(border_style="double", color="ff0000")
-border = Border(top=double, left=thin, right=thin, bottom=double)
-fill = PatternFill("solid", fgColor="DDDDDD")
-# fill = GradientFill(stop=("000000", "FFFFFF"))
-font = Font(b=True, color="FF0000")
-
-def style_range(sheet, cell_range, border=Border(), fill=None, font=None, alignment=None):
-    top = Border(top=border.top)
-    left = Border(left=border.left)
-    right = Border(right=border.right)
-    bottom = Border(bottom=border.bottom)
-
-    first_cell = sheet[cell_range.split(":")[0]]
-    if alignment:
-        sheet.merge_cells(cell_range)
-        first_cell.alignment = alignment
-
-    rows = sheet[cell_range]
-    if font:
-        first_cell.font = font
-
-    for cell in rows[0]:
-        cell.border = cell.border + top
-    for cell in rows[-1]:
-        cell.border = cell.border + bottom
-
-    for row in rows:
-        l = row[0]
-        r = row[-1]
-        l.border = l.border + left
-        r.border = r.border + right
-        if fill:
-            for c in row:
-                c.fill = fill
-
+print('\nStart next file, \'page_01_bms_commandctr.py\'')
 # imports
+# import openpyxl
 from openpyxl import load_workbook
+# from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font, GradientFill, NamedStyle, Color, colors
 wb = load_workbook(filename = 'Plymouth_Daily_Rounds.xlsx')
-from openpyxl.styles import Alignment, Border, Side, NamedStyle, Font, PatternFill, GradientFill
+from openpyxl.styles import Alignment, Border, Side, NamedStyle, Font, PatternFill# , GradientFill
 sheet = wb['Page_01']
-print('Active sheet is ', sheet, '\n')
+print('Worksheet list:', wb.sheetnames) # 'Plymouth_Daily_Rounds', 'Page_11'
 indexNumber = wb.worksheets.index(wb['Page_01'])
+print('\'Page_01\' index number = ', indexNumber) # = 0
+indexNumber = wb.worksheets.index(wb['Page_11'])
+print('\'Page_11\' index number = ', indexNumber) # 1
+print('Active sheet is ', sheet, '\n')
 wb.save('Plymouth_Daily_Rounds.xlsx')
 
-# def pg01_start():
+def pg01_start():
+    # sheet['A1'].value = 'Note: When doing rounds be aware for unusual smells, sounds, sights, or anything not normal.' 
+    print('startup complete on ', sheet)
+    wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_headers():
     # Local Variables
@@ -80,9 +50,10 @@ def pg01_headers():
     sheet.oddFooter.left.font = "Tahoma, Bold"
     sheet.oddFooter.left.color = "000000" # 
     sheet.oddFooter.right.text = "&[Path]&[File]"
-    sheet.oddFooter.right.size = 6
+    sheet.oddFooter.right.size = 7
     sheet.oddFooter.right.font = "Tahoma, Bold"
-    sheet.oddFooter.right.color = "000000"
+    sheet.oddFooter.right.color = "000000" # 
+    print('headers complete on ', sheet)
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_merge():
@@ -100,6 +71,7 @@ def pg01_merge():
     for row in rows:
         sheet.row_dimensions[row].height = 15.00
     sheet.row_dimensions[47].height = 21.00
+    print('merge complete on ', sheet)
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_namedstyle():
@@ -123,7 +95,10 @@ def pg01_namedstyle():
                             right=Side(style='thin'), 
                             top=Side(style='thin'), 
                             bottom=Side(style='thick'))
-
+    no_border = Border(left=Side(style='none'),
+                            right=Side(style='none'), 
+                            top=Side(style='none'), 
+                            bottom=Side(style='none'))
     columnEven = [2, 4, 6, 8]
     columnOdd = [3, 5, 7, 9]
     #
@@ -141,10 +116,12 @@ def pg01_namedstyle():
     rightAlign = NamedStyle(name='rightAlign')
     rightAlign.font = Font(b=True, i=True, sz=10)
     rightAlign.alignment = right
+    #
+    print('namedstyle complete on ', sheet)
     wb.save('Plymouth_Daily_Rounds.xlsx')
     #
     # A1
-    a1 = sheet['A1'] # 
+    a1 = sheet['A1']
     a1.style = rooms
     a1.font = Font(size=12, b=True, i=True, color='FF0000')
     a1.alignment = center
@@ -179,12 +156,13 @@ def pg01_namedstyle():
     columns = range(1, 6)
     for row in rows:
         for col in columns:
-            sheet.cell(row, col).border = thin_border
+            sheet.cell(row, col).border = no_border
     # StretchGoal: Need Thick border around page doc
-    style_range(sheet, 'A1:E1', border=border, fill=fill, font=font, alignment=center)
+    print('styles complete on ', sheet)
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_cell_values():
+    # Local Variables
     # Cell values
     sheet['A2'].value = 'Engineer Initials:     '
     sheet['A3'].value = 'Time of Round:     '
@@ -240,6 +218,7 @@ def pg01_cell_values():
     sheet['A45'].value = 'Server Rooms'
     sheet['A46'].value = 'PDU 13'
     sheet['A47'].value = 'Notes:' # StretchGoal: Increase row height, delete comment rows below
+    print('cell_values complete on ', sheet)
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_engineer_values():
@@ -262,17 +241,17 @@ def pg01_engineer_values():
             sheet.cell(row=row, column=col).value = '✓  X'
             sheet.cell(row=row, column=col).alignment = center
             sheet.cell(row=row, column=col).font = Font(size=9, color='DCDCDC')
+    print('engineer_values complete on ', sheet)
     wb.save('Plymouth_Daily_Rounds.xlsx')
 
 def pg01_colored_cells():
     # Local Variables
     # rowsColor = [1, 2, 3, 4, 24, 41]
-    rowsColor = [2, 3, 4, 5, 8, 20, 21, 28, 32, 33, 40, 44]
+    rowsColor = [1, 2, 3, 4, 5, 8, 20, 21, 28, 32, 33, 40, 44]
     columnsColor = [1, 2, 3, 4, 5]
     for col in columnsColor:
         for row in rowsColor:
             # print(col, row)
             sheet.cell(row=row, column=col).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
-    # sheet.cell(row=2, column=1).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
-    #sheet.cell(row=3, column=1).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
+    print('colored_cells complete on ', sheet)
     wb.save('Plymouth_Daily_Rounds.xlsx')

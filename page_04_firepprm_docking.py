@@ -1,221 +1,247 @@
-#!/usr/bin/env python3
+#! python3
 '''
-* Server Room 2
-* MDF Room
+* East UPS Room
 * Fire Pump Room
-
-wb.save('Plymouth_Daily_Rounds.xlsx')
+* Loading Dock Area
+* Mechanical Room
 '''
-print('\n\'page_04\' is run')
+print('Start next file, \'page_04\'')
 # imports
-import openpyxl
 from openpyxl import load_workbook
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font, GradientFill, NamedStyle, Color, colors
-
+from openpyxl.styles import Alignment, Border, Side, NamedStyle, Font, PatternFill
 wb = load_workbook(filename = 'Plymouth_Daily_Rounds.xlsx')
-print('sheet names at beginning of \'page_04\':', wb.sheetnames)
-sheet = wb.active
-
-# Create Sheet
-sheet = wb.create_sheet(title='Page_04', index=4)
 sheet = wb["Page_04"]
-print('Active sheet is', sheet)
+print('Active sheet is ', sheet)
 wb.save('Plymouth_Daily_Rounds.xlsx')
 
-# Global Variables
-nl = '\n'
-center = Alignment(horizontal='center', vertical='center')
-right = Alignment(horizontal='right', vertical='bottom')
-thin_border = Border(left=Side(style='thin'), 
-                     right=Side(style='thin'), 
-                     top=Side(style='thin'), 
-                     bottom=Side(style='thin'))
-thick_border = Border(left=Side(style='thick'), 
-                     right=Side(style='thick'), 
-                     top=Side(style='thick'), 
-                     bottom=Side(style='thick'))
-columnEven = [2, 4, 6, 8]
-columnOdd = [3, 5, 7, 9]
+def pg04_headers():
+    # center = Alignment(horizontal='center', vertical='center')
+    # right = Alignment(horizontal='right', vertical='bottom')
+    # Print Options
+    sheet.print_area = 'A1:E49' # TODO: set cell region
+    print_area = sheet.print_area
+    print('print_area = ', print_area)
+    sheet.print_options.horizontalCentered = True
+    sheet.print_options.verticalCentered = True
+    # Page margins
+    sheet.page_margins.left = 0.25
+    sheet.page_margins.right = 0.25
+    sheet.page_margins.top = 0.55
+    sheet.page_margins.bottom = 0.55
+    sheet.page_margins.header = 0.25
+    sheet.page_margins.footer = 0.25
+    # Headers & Footers
+    sheet.oddHeader.center.text = "&[File]"
+    sheet.oddHeader.center.size = 20
+    sheet.oddHeader.center.font = "Tahoma, Bold"
+    sheet.oddHeader.center.color = "000000" # 
+    sheet.oddFooter.left.text = "&[Tab] of 11"
+    sheet.oddFooter.left.size = 10
+    sheet.oddFooter.left.font = "Tahoma, Bold"
+    sheet.oddFooter.left.color = "000000" # 
+    sheet.oddFooter.right.text = "&[Path]&[File]"
+    sheet.oddFooter.right.size = 6
+    sheet.oddFooter.right.font = "Tahoma, Bold"
+    sheet.oddFooter.right.color = "000000"
+    wb.save('Plymouth_Daily_Rounds.xlsx')
 
-# Print and page layout
-# Print Options
-sheet.print_area = 'A1:I31' # TODO: Set print area
-sheet.print_options.horizontalCentered = True
-sheet.print_options.verticalCentered = True
-# Page margins
-sheet.page_margins.left = 0.25
-sheet.page_margins.right = 0.25
-sheet.page_margins.top = 0.75
-sheet.page_margins.bottom = 0.75
-sheet.page_margins.header = 0.3
-sheet.page_margins.footer = 0.3
-# Headers & Footers
-sheet.oddHeader.center.text = "&[Tab]"
-sheet.oddHeader.center.size = 24
-sheet.oddHeader.center.font = "Tahoma, Bold"
-sheet.oddHeader.center.color = "000000" # 
-sheet.oddFooter.left.text = "Page &[Page] of &N"
-sheet.oddFooter.left.size = 12
-sheet.oddFooter.left.font = "Tahoma, Bold"
-sheet.oddFooter.left.color = "000000" # 
-sheet.oddFooter.right.text = "&[Path]&[File]"
-sheet.oddFooter.right.size = 12
-sheet.oddFooter.right.font = "Tahoma, Bold"
-sheet.oddFooter.right.color = "000000" # 
-wb.save('Plymouth_Daily_Rounds.xlsx')
-# Merges 9 cells into 1 in 1 row
-for row in (1, 13, 17, 23, 29, 30, 31):
-    sheet.merge_cells(start_row=row, start_column=1, end_row=row, end_column=9)
-# merge 2 cells into 1 in 1 row
-columns = [(col, col+1) for col in range(2, 9, 2)]
-for row in [2, 11, 22, 24, 25, 26, 27, 28]:
-    for col1, col2 in columns:
-        sheet.merge_cells(start_row=row, start_column=col1, end_row=row, end_column=col2)
-# Column width and Row height
-sheet.column_dimensions['A'].width = 30.00
-for col in ['B', 'D', 'F', 'H']:
-    sheet.column_dimensions[col].width = 4.00
-for col in ['C', 'E', 'G', 'I']:
-    sheet.column_dimensions[col].width = 10.00
-rows = range(1, 43)
-for row in rows:
-    sheet.row_dimensions[row].Height = 15.00
-
-# Wrap text Column A
-rows = range(1, 31)
-for row in rows:
-    # for col in columns:
-    sheet.cell(row, 1).alignment = Alignment(wrap_text=True)
-
-# Styles
-sheet['A1'].style = 'rooms'
-sheet['A13'].style = 'rooms'
-sheet['A17'].style = 'rooms'
-sheet['A23'].style = 'rooms'
-sheet['A29'].style = 'rooms'
-sheet['B21'].style = 'rightAlign' # Todo: Add into forLoop
-sheet['B24'].style = 'rightAlign'
-sheet['B25'].style = 'rightAlign'
-sheet['B27'].style = 'rightAlign'
-
-# Borders
-rows = range(1, 31)
-columns = range(1, 11)
-for row in rows:
-    for col in columns:
-        sheet.cell(row, col).border = thin_border
-wb.save('Plymouth_Daily_Rounds.xlsx')
-
-# Cell values
-'''
-sheet['A1'].value = 'CO2'
-sheet['A2'].value = 'Eaton Breaker Interface Module II Alarm light OFF'
-sheet['A3'].value = 'CO2-B18 Spare is Open'
-sheet['A4'].value = 'CO2-B11 STS-2A is Closed'
-sheet['A5'].value = 'CO2-B12 STS-2B is Closed'
-sheet['A6'].value = 'CO2-B17 Spare is Open'
-sheet['A7'].value = 'CO2-B13 STS-1A Closed'
-sheet['A8'].value = 'CO2-B14 STS-3B is Closed'
-sheet['A9'].value = 'CO2-B15 STS-2C is Closed'
-sheet['A10'].value = 'CO2-B16 STS-2D is Closed'
-sheet['A11'].value = 'Eaton Xpert meter Events light OFF (User is X and PW is X)'
-sheet['A12'].value = 'CO2-B01 CC-CO Isolation switch is Closed'
-'''
-
-sheet['A13'].value = 'CC2'
-sheet['A14'].value = 'CC2-B05 (MBB) Breaker is Open'
-sheet['A15'].value = 'CC2-B01 (MIB) Breaker is Closed'
-sheet['A16'].value = 'CC2-B99 (LBB) Breaker is Open'
-sheet['A17'].value = 'Rail 3'
-sheet['A18'].value = 'CRAC 35'
-sheet['A19'].value = 'CU3-M1 (UPS 3)' # Todo: Merge A19-A21
-sheet['A20'].value = ''
-sheet['A21'].value = ''
-sheet['A22'].value = 'MBB Module Battery Breaker status'
-sheet['A23'].value = 'CI 3'
-sheet['A24'].value = 'CI3-B08 Breaker SPD 3 Green lights (Protected)'
-sheet['A25'].value = 'CI3-B11 CU3-M1 Input Breaker is Closed'
-sheet['A26'].value = 'CI3-B06 CU3-M1 Static Bypass Breaker is Closed'
-sheet['A27'].value = 'Eaton Xpert meter Events light OFF (User is X and PW is X)'
-sheet['A28'].value = 'CI3-B05 CU3-M1 Maint. Bypass Breaker is Closed'
-sheet['A29'].value = 'CO 3'
-sheet['A30'].value = 'Eaton Breaker Interface Module II Alarm light OFF'
-sheet['A31'].value = 'CO3-B18 Spare Breaker is Open'
-sheet['A32'].value = 'CO3-B11 STS3A Breaker is Closed'
-sheet['A33'].value = 'CO3-B12 STS3B Breaker is Closed'
-sheet['A34'].value = 'CO3-B17 Spare Breaker is Open'
-sheet['A35'].value = 'CO3-B13 STS1B Breaker is Closed'
-sheet['A36'].value = 'CO3-B14 STS2B Breaker is Closed'
-sheet['A37'].value = 'CO3-B15 STS2D Breaker is Closed'
-sheet['A38'].value = 'CO3-B16 Spare Breaker is Open'
-sheet['A39'].value = 'Eaton Xpert meter Events light OFF (User is X and PW is X)'
-sheet['A40'].value = 'CO3-B01 CC-CO Isolation switch is Closed'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-sheet['A41'].value = 'Notes:' # StretchGoal: Increase row height, delete comment rows below
-sheet['A42'].value = ''
-sheet['A43'].value = ''
-
-# Engineering Values
-# Yes or No values
-rows = [2, 11, 24, 27]
-# cells = []
-for col in columnEven:
+def pg04_merge():
+    # center = Alignment(horizontal='center', vertical='center')
+    # right = Alignment(horizontal='right', vertical='bottom')
+    # Merges 9 cells into 1 in 1 row
+    for row in (1, 5, 12, 24, 28):
+        sheet.merge_cells(start_row=row, start_column=1, end_row=row, end_column=5)
+    # merge 2 cells into 1 in 1 row
+    columns = [(col, col+1) for col in range(2, 5, 2)]
+    for row in [2, 3, 4, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34]:
+        for col1, col2 in columns:
+            sheet.merge_cells(start_row=row, start_column=col1, end_row=row, end_column=col2)
+    # Column width and Row height
+    sheet.column_dimensions['A'].width = 50.00
+    # for col in ['B', 'D', 'F', 'H']:
+        # sheet.column_dimensions[col].width = 4.00
+    for col in ['B', 'C', 'D', 'E']:
+        sheet.column_dimensions[col].width = 9.00
+    rows = range(1, 43)
     for row in rows:
-        sheet.cell(row=row, column=col).value = 'Yes  /  No'
-        sheet.cell(row=row, column=col).alignment = center
-        sheet.cell(row=row, column=col).font = Font(size = 8, i=True, color='000000')
+        sheet.row_dimensions[row].Height = 15.00
+    '''# Wrap text Column A
+    for row in rows:
+        for col in columns:
+            sheet.cell(row, col).alignment = Alignment(wrap_text=True) '''
+    sheet.merge_cells(start_row=13, start_column=1, end_row=18, end_column=1)
+    sheet.merge_cells(start_row=30, start_column=1, end_row=32, end_column=1)
+    sheet.merge_cells(start_row=34, start_column=1, end_row=36, end_column=1)
+    wb.save('Plymouth_Daily_Rounds.xlsx')
 
-# ✓ X values
-rowsCheck = [3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 22, 25, 26, 28]
-for col in columnEven:
-    for row in rowsCheck:
-        # print(col, row)
-        sheet.cell(row=row, column=col).value = '✓  X'
-        sheet.cell(row=row, column=col).alignment = center
-        sheet.cell(row=row, column=col).font = Font(size=8, color='DCDCDC')
+def pg04_namedstyle():
+    center = Alignment(horizontal='center', vertical='center', wrap_text=True)
+    thin_border = Border(left=Side(style='thin'), 
+                        right=Side(style='thin'), 
+                        top=Side(style='thin'), 
+                        bottom=Side(style='thin'))
+    thick_border = Border(left=Side(style='thick'), 
+                        right=Side(style='thick'), 
+                        top=Side(style='thick'), 
+                        bottom=Side(style='thick'))
+    # Styles
+    sheet['A1'].style = 'rooms'
+    sheet['A12'].style = 'rooms'
+    # sheet['A24'].style = 'rooms'
+    sheet['A28'].style = 'rooms'
+    '''    sheet['B21'].style = 'rightAlign' # Todo: Add into forLoop
+    sheet['B24'].style = 'rightAlign'
+    sheet['B25'].style = 'rightAlign'
+    sheet['B27'].style = 'rightAlign' '''
+    sheet['A5'].alignment = center
+    sheet['A13'].alignment = center
+    sheet.cell(row=30, column=1).alignment = center
+    sheet['A34'].alignment = center
+  
 
-# Hz
-rowsHZ = [18]
-for col in columnOdd:
-    for row in rowsHZ:
-        # print(col, row)
-        sheet.cell(row=row, column=col).value = 'Hz'
-        sheet.cell(row=row, column=col).alignment = right
-        sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
+    # Borders
+    rows = range(1, 80)
+    columns = range(1, 6)
+    for row in rows:
+        for col in columns:
+            sheet.cell(row, col).border = thin_border
+    wb.save('Plymouth_Daily_Rounds.xlsx')
+
+def pg04_cell_values():
+    # Cell values
+    sheet['A1'].value = 'CC3' # Merge cells into 1 row
+    sheet['A2'].value = 'CC3-B05 (MBB) Breaker is Open'
+    sheet['A3'].value = 'CC3-B01 (MIB) Breaker is Closed'
+    sheet['A4'].value = 'CC3-B99 (LBB) Breaker is Open'
+    sheet['A5'].value = 'Ensure Key is in Locked position before touching STS screen' # Merge cells into 1 row
+    sheet['A6'].value = 'STS3A is on preferred source 1'
+    sheet['A7'].value = 'STS3B is on preferred source 1'
+    sheet['A8'].value = 'EF 4'
+    sheet['A9'].value = 'EF 5'
+    sheet['A10'].value = 'East Electrical Room Leak Detection'
+    sheet['A11'].value = 'Tear off sticky mat for SR3 (East side)'
+    sheet['A12'].value = 'Fire Pump/ Pre action Room' # Note: Room # Merge cells into 1 row
+
+    sheet['A13'].value = 'Only on the 20:00 rounds check pre action valves to make sure they’re open (if open put a check next to each zone):' # Merges 6 cells in column A (13 to 18) into 1 rcell
+    sheet['B13'].value = 'Zone 1'
+    sheet['B14'].value = 'Zone 2'
+    sheet['B15'].value = 'Zone 3'
+    sheet['B16'].value = 'Zone 4'
+    sheet['B17'].value = 'Wet system level 1-4 '
+    sheet['B18'].value = 'Wet system level 0 (Corridors)'
+    sheet['D13'].value = 'Zone 5'
+    sheet['D14'].value = 'Zone 6'
+    sheet['D15'].value = 'Zone 7'
+
+    sheet['A19'].value = 'Jockey pump controller in Auto'
+    sheet['A20'].value = 'Fire pump controller in Auto'
+    sheet['A21'].value = 'Fire pump is on Normal source power'
+    sheet['A22'].value = 'System water pressure left side of controller (140 -150psi)'
+    sheet['A23'].value = 'System Nitorgen PSI (inside the red cabinet)'
+    sheet['A24'].value = 'At Nitrogen tank regulator: (Replace with Extra Dry Nitrogen at 200PSI)'
+    sheet['A25'].value = 'Main building water meter (Total) readings (Top reading)'
+    sheet['A26'].value = 'Is Building Main-Drain Water Leaking?'
+    sheet['A27'].value = 'If drain pipe has water leaking, check the air-bleed-off-valve in the penthouse stairwell for leaks.'
+    sheet['A28'].value = 'Loading Dock Area' # Note: Room # Merge cells into 1 row
+    sheet['A29'].value = 'Do we need to order salt? If yes let the Chief Engineer know.'
+    sheet['A30'].value = 'Check brine level (should be at the indicating line).'
+    sheet['A31'].value = 'HP LL- 5 Ok  (Fan is ok, If there\'s sweating of pipes check operation of HP)'
+    sheet['A32'].value = 'Mechanical / Chill Water Units Room' # Note: Room # Merge cells into 1 row
+    sheet['A33'].value = 'Cooling Twr. Supply  water meter reading.'
+    sheet['A34'].value = 'Write down the water softener gallon readings from each softener.' # Merges 3 cells in column A (34 to 36) into 1 rcell
+    # sheet['A35'].value = '' # Todo: merge with line 
+    # sheet['A36'].value = '' # Todo: merge with line 
+    sheet['A37'].value = 'Well meter reading'
+    sheet['A38'].value = 'HP LL- 4 Ok  (Fan is ok, If there\'s sweating of pipes check operation of HP)'
+    sheet['A39'].value = 'CHWP #3'
+    sheet['A40'].value = 'CHWP #5'
+    sheet['A41'].value = 'CHWP #2'
+    sheet['A42'].value = 'CHWP #4'
+    sheet['A43'].value = 'CHWP #1'
+    sheet['A44'].value = 'CDW to CHW makeup' # Todo: two line 40's
+    sheet['A45'].value = 'CHW'
 
 
+    sheet['A46'].value = 'CHW Filter PSI (23psi)'
+    sheet['A47'].value = 'Bladder tank pressure (<30)'
+    sheet['A48'].value = 'CHW Lakos Bag filter'
+    sheet['A49'].value = 'Condenser Supply Temp.  East Side (68 – 85)'
+    sheet['A50'].value = 'CWP-6 VFD'
+    sheet['A51'].value = 'CWP-1 VFD'
+    sheet['A52'].value = 'CWP-4 VFD'
+    sheet['A53'].value = 'CWP-3 VFD'
+    sheet['A54'].value = 'CDWF  VFD '
+    sheet['A55'].value = 'CWP-2 VFD'
+    sheet['A56'].value = 'CWP-5 VFD'
+    sheet['A57'].value = 'TWR Fan- 6 VFD'
+    sheet['A58'].value = 'TWR Fan- 5 VFD'
+    sheet['A59'].value = 'CHWR Header Temp East'
+    sheet['A60'].value = 'CHWR Temp (Bypass) East'
+    sheet['A61'].value = 'Lakos Separator (6psi)'
+    sheet['A62'].value = 'CHWS Temp East'
+    sheet['A63'].value = 'CHWP #3 VFD'
+    sheet['A64'].value = 'Well VFD'
+    sheet['A65'].value = 'CHWP #2 VFD'
+    sheet['A66'].value = 'CHWP #4 VFD'
+    sheet['A67'].value = 'CHWP #1 VFD'
+    sheet['A68'].value = 'CHWP #5 VFD'
+    sheet['A69'].value = 'EF #6 VFD'
+    sheet['A70'].value = 'Core Pump #1 VFD'
+    sheet['A71'].value = 'Core Pump #2 VFD'
+    sheet['A72'].value = 'HP LL- 3 Ok  (Fan is ok, If there\'s sweating of pipes check operation of HP)'
+    sheet['A73'].value = 'Core Pump #2 (15 - 20 PSID)'
+    sheet['A74'].value = 'Core Pump #1 (15 - 20 PSID)'
+    sheet['A75'].value = 'Condenser Supply Temp.  West Side (68 – 85)'
+    sheet['A76'].value = 'Chemical tanks level (above the order lines)'
+    sheet['A77'].value = 'Nalco controller'
+    sheet['A78'].value = 'Coupon Rack flow is between 4 – 6 GPM'
+    sheet['A79'].value = 'Tower #4 VFD'
+    sheet['A80'].value = 'Tower #3 VFD'
+    sheet['A81'].value = 'Tower #2 VFD'
+    sheet['A82'].value = 'Tower #1 VFD'
+    sheet['A83'].value = 'Notes:' # StretchGoal: Increase row height, delete comment rows below # Merge cells into 1 row
+    wb.save('Plymouth_Daily_Rounds.xlsx')
 
+def pg04_engineer_values():
+    # Engineering Values
+    # Local Variables
+    center = Alignment(horizontal='center', vertical='center')
+    right = Alignment(horizontal='right', vertical='bottom')
+    columnEven = [2, 4]
+    columnOdd = [3, 5]
+    # Yes or No values
+    rows = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 22, 24]
+    # cells = []
+    for col in columnEven:
+        for row in rows:
+            sheet.cell(row=row, column=col).value = 'Yes  /  No'
+            sheet.cell(row=row, column=col).alignment = center
+            sheet.cell(row=row, column=col).font = Font(size = 8, i=True, color='000000')
+    # ✓ X values
+    rowsCheck = [6, 7, 8, 9, 10, 15, 16, 17, 25, 26]
+    for col in columnEven:
+        for row in rowsCheck:
+            # print(col, row)
+            sheet.cell(row=row, column=col).value = '✓  or  X'
+            sheet.cell(row=row, column=col).alignment = center
+            sheet.cell(row=row, column=col).font = Font(size=9, color='DCDCDC')
+        # Hz
+    rowsHZ = [18]
+    for col in columnOdd:
+        for row in rowsHZ:
+            # print(col, row)
+            sheet.cell(row=row, column=col).value = 'Hz'
+            sheet.cell(row=row, column=col).alignment = right
+            sheet.cell(row=row, column=col).font = Font(size=8, color='000000')
+wb.save('Plymouth_Daily_Rounds.xlsx')
 
+def pg04_colored_cells():
+    print('pg04_colored_cells called')
+    rowsColor = [1, 12, 28]
+    columnsColor = range(1, 6, 1)
+    for col in columnsColor:
+        for row in rowsColor:
+            sheet.cell(row=row, column=col).fill = PatternFill(fgColor='DCDCDC', fill_type = 'solid')
+    print('pg04_colored_cells end')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-print('sheet names at end of \'page_04\':', wb.sheetnames)
-print('\'page_04\' run with sheet dimensions of ', sheet.dimensions)
 wb.save('Plymouth_Daily_Rounds.xlsx')
