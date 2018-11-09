@@ -118,7 +118,7 @@ def pg04_cell_values():
     sheet['A9'].value = 'EF 5'
     sheet['A10'].value = 'East Electrical Room Leak Detection'
     sheet['A11'].value = 'Tear off sticky mat for SR3 (East side)'
-    sheet['A12'].value = 'Fire Pump/ Pre action Room' # Note: Room
+    sheet['A12'].value = 'Fire Pump/ Pre-Action Room' # Note: Room
 
     sheet['A13'].value = 'Only on the 20:00 rounds check pre action valves to make sure they’re open (if open put a check next to each zone):'
     sheet['A14'].value = 'Zone 1'

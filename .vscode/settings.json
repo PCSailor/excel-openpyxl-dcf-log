@@ -1,0 +1,31 @@
+{
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "editor.wordWrap": "on",
+    "editor.tabSize": 2,
+    "todohighlight.isEnable": true,
+    "todohighlight.isCaseSensitive": false,
+    "todohighlight.defaultStyle": {
+        "color": "#000000",
+        "backgroundColor": "#808080",
+        "overviewRulerColor": "#ffab00",
+        // "cursor": "pointer",
+        "border": "1px solid #808080",
+        "borderRadius": "1px",
+    },
+    "todohighlight.keywords": [
+        "DEBUG:",
+        "REVIEW:",
+        {
+            "text": "NOTE:",
+            "color": "#800080",
+            "backgroundColor": "#00ffff",
+            // "overviewRulerColor": "grey"
+        },
+        {
+            "text": "Todo:",
+            "color": "#800080",
+            "backgroundColor": "#00ff00",
+            // "overviewRulerColor": "grey"
+        },
+    ]
+}

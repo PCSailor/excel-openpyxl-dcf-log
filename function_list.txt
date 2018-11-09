@@ -1,7 +1,0 @@
-def pg0_start():
-def pg0_headers():
-def pg0_merge():
-def pg0_namedstyle():
-def pg0_cell_values():
-def pg0_engineer_values():
-def pg0_colored_cells():

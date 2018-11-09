@@ -1,0 +1,25 @@
+* CODE STRUCTURE:
+    * SheBang
+    * Comments
+    * Imports
+    * Global Variables
+    * Headers
+    * Merge
+        * Dimensions
+        * Page Fonts
+		# Todo: set as own def
+    * NamedStyles
+    * Cell Values
+    * Engineer Values
+        * Cell-specific adjustments
+    * Colored Cells
+    * Borders
+
+FUNCTION LIST:
+def pg0_start():
+def pg0_headers():
+def pg0_merge():
+def pg0_namedstyle():
+def pg0_cell_values():
+def pg0_engineer_values():
+def pg0_colored_cells():

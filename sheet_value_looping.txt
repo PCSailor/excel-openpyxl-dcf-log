@@ -1,0 +1,12 @@
+values = ['Mechanical / Chill Water Units Room continued', 'DP 3 Breakers', 'DP3-B08 SPD All 3 Green lights (Protected)',  'DP3-B12 CHILLER 3 Breaker is',  'DP3-B13 ATS-HPC-C Breaker is', 'DP3-B14 ATS-HPC-H Breaker is', 'DP3-B15 MUA 4 Breaker is', 'DP3-B17 ATS-HPD-H Breaker is', 'Notes']
+
+    for v in values:
+        print(v)
+
+    # Original Code from Python-forum.io:
+
+    def update_vertically(sheet, col, row, items):
+        row = int(row)
+        for i, value in enumerate(items):
+            sheet['{}{}'.format(col, row+i)].value = value
+    update_vertically(sheet, 'A', 2, ['0{}'.format(i) for i in range(3, 11)])
