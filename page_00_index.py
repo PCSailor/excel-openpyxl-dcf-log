@@ -65,23 +65,14 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Fo
 # from openpyxl.styles import Alignment, Border, Side, NamedStyle, Font, PatternFill, Protection, GradientFill, Color, colors
 
 # Set directory # Todo: Change directory
-os.chdir('D:\Software\Python\python_excel\python_openpyxl_dcflog_updated')
-# os.chdir(os.path.dirname(sys.argv[0])) # Error: OSError: [WinError 123] The filename, directory name, or volume label syntax is incorrect: ''
-# os.chdir(sys.argv[0]) # Error: NotADirectoryError: [WinError 267] The directory name is invalid: 'page_00_index.py'
-# os.chdir(os.path.dirname(__file__)) # [WinError 123] The filename, directory name, or volume label syntax is incorrect: ''
-
-
-
-
-
-
-
-
-
-
-
-
-print('  CWD =', cwd) # Same result: print('Current Working Directory is %s:' % cwd)
+# Direct Path
+# os.chdir('D:\Software\Python\python_excel\python_openpyxl_dcflog_updated')
+# absolute path
+os.chdir(os.path.abspath(os.path.dirname(__file__)))
+print('  CWD =', cwd) 
+    # Same results: 
+        # print(os.getcwd())
+        # print('Current Working Directory is %s:' % cwd)
 
 # create workbook
 wb = openpyxl.Workbook()
