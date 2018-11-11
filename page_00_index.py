@@ -69,6 +69,12 @@ from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Fo
 # os.chdir('D:\Software\Python\python_excel\python_openpyxl_dcflog_updated')
 # absolute path
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
+'''
+os.chdir = change working directory
+os.path.abspath = return the absolute path
+os.path.dirname = return the name portion of the object
+__file__ = The path to where the module data is stored (not set for built-in modules)
+'''
 print('  CWD =', cwd) 
     # Same results: 
         # print(os.getcwd())
